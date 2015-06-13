@@ -1,0 +1,17 @@
+﻿//------------------------------------------------------------------------------
+// <copyright file="LiteralExpr.cs">
+//     Copyright (c) gsksoft. All rights reserved.
+// </copyright>
+// <description></description>
+//------------------------------------------------------------------------------
+namespace Gsksoft.GScript.Core.AST
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    public abstract class LiteralExpr : Expression
+    {
+    }
+}
