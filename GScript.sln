@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{379D0867-E39
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0971AB3C-208E-46C1-AD12-221AB4665D0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interpreter", "src\Interpreter\Interpreter.csproj", "{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,12 +41,23 @@ Global
 		{986B7B51-41E9-49E0-99F5-F1CF7D90A951}.Release|Mixed Platforms.Build.0 = Release|x86
 		{986B7B51-41E9-49E0-99F5-F1CF7D90A951}.Release|x86.ActiveCfg = Release|x86
 		{986B7B51-41E9-49E0-99F5-F1CF7D90A951}.Release|x86.Build.0 = Release|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Debug|x86.ActiveCfg = Debug|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Debug|x86.Build.0 = Debug|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Release|Any CPU.ActiveCfg = Release|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Release|x86.ActiveCfg = Release|x86
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AEF5F302-9D5A-4AC1-A922-90BEA2C5870A} = {379D0867-E39F-4648-9B71-46CC6D1A3430}
+		{B2BCA09A-4151-4E52-8479-84CFBF6B9D57} = {379D0867-E39F-4648-9B71-46CC6D1A3430}
 		{986B7B51-41E9-49E0-99F5-F1CF7D90A951} = {0971AB3C-208E-46C1-AD12-221AB4665D0F}
 	EndGlobalSection
 EndGlobal

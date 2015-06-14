@@ -2,7 +2,6 @@
 // <copyright file="TokenType.cs" company="gsksoft">
 //     Copyright gsksoft. All rights reserved.
 // </copyright>
-// <date>2015-05-31</date>
 // <description></description>
 //------------------------------------------------------------------------------
 namespace Gsksoft.GScript.Core

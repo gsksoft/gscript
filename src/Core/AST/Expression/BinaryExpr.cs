@@ -43,7 +43,7 @@ namespace Gsksoft.GScript.Core.AST
                         result = leftValue || rightValue;
                         break;
                     default:
-                        break;
+                        throw new GScriptException(); // unreachable
                 }
             }
             else
