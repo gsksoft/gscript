@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\CompilationUnit.cs" />
     <Compile Include="AST\Expression.cs" />
     <Compile Include="AST\Expression\BinaryExpr.cs" />
     <Compile Include="AST\Expression\LiteralExpr.cs" />
@@ -48,7 +49,6 @@
     <Compile Include="AST\Expression\UnaryExpr.cs" />
     <Compile Include="AST\Node.cs" />
     <Compile Include="AST\Operators.cs" />
-    <Compile Include="AST\Program.cs" />
     <Compile Include="AST\Statement.cs" />
     <Compile Include="AST\Statement\AssignStmt.cs" />
     <Compile Include="AST\Statement\BlockStmt.cs" />
@@ -60,9 +60,11 @@
     <Compile Include="AST\VarType.cs" />
     <Compile Include="AST\Statement\WhileStmt.cs" />
     <Compile Include="Exception\GScriptException.cs" />
+    <Compile Include="Exception\SourceIncompleteException.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="ParseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Token.cs" />

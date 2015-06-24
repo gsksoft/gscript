@@ -30,6 +30,7 @@ namespace Gsksoft.GScript.Core
             s_keywordMapping["let"] = TokenType.Let;
             s_keywordMapping["print"] = TokenType.Print;
             s_keywordMapping["return"] = TokenType.Return;
+            s_keywordMapping["ret"] = TokenType.Return;
             s_keywordMapping["true"] = TokenType.True;
             s_keywordMapping["false"] = TokenType.False;
             s_keywordMapping["integer"] = TokenType.Int;
@@ -136,28 +137,34 @@ namespace Gsksoft.GScript.Core
         {
             Token token = new Token();
             char c = PeekChar();
-            Forward();
             switch (c)
             {
                 case '{':
+                    Forward();
                     token.Type = TokenType.LCurly;
                     break;
                 case '}':
+                    Forward();
                     token.Type = TokenType.RCurly;
                     break;
                 case '(':
+                    Forward();
                     token.Type = TokenType.LParen;
                     break;
                 case ')':
+                    Forward();
                     token.Type = TokenType.RParen;
                     break;
                 case ':':
+                    Forward();
                     token.Type = TokenType.Colon;
                     break;
                 case ';':
+                    Forward();
                     token.Type = TokenType.Semi;
                     break;
                 case '=':
+                    Forward();
                     c = PeekChar();
                     if (c == '=')
                     {
@@ -170,6 +177,7 @@ namespace Gsksoft.GScript.Core
                     }
                     break;
                 case '<':
+                    Forward();
                     c = PeekChar();
                     if (c == '=')
                     {
@@ -187,6 +195,7 @@ namespace Gsksoft.GScript.Core
                     }
                     break;
                 case '>':
+                    Forward();
                     c = PeekChar();
                     if (c == '=')
                     {
@@ -199,19 +208,22 @@ namespace Gsksoft.GScript.Core
                     }
                     break;
                 case '+':
+                    Forward();
                     token.Type = TokenType.Plus;
                     break;
                 case '-':
+                    Forward();
                     token.Type = TokenType.Minus;
                     break;
                 case '*':
+                    Forward();
                     token.Type = TokenType.Mul;
                     break;
                 case '/':
+                    Forward();
                     token.Type = TokenType.Div;
                     break;
                 default:
-                    Backward();
                     throw new GScriptException();
             }
             return token;
@@ -233,11 +245,6 @@ namespace Gsksoft.GScript.Core
         private void Forward()
         {
             ++m_position;
-        }
-
-        private void Backward()
-        {
-            --m_position;
         }
 
         public static class CharEx

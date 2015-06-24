@@ -22,6 +22,9 @@ namespace Gsksoft.GScript.Core
         private int m_tokenCount;
         private int m_position;
 
+        private int m_currentLevel;
+        private bool m_inconclusive;
+
         static Parser()
         {
             s_unaryOperatorMapping = new Dictionary<TokenType, UnaryOperator>();
@@ -51,15 +54,36 @@ namespace Gsksoft.GScript.Core
             return s_binaryOperatorMapping[type];
         }
 
-        public Node Parse(List<Token> tokens)
+        public CompilationUnit Parse(List<Token> tokens)
         {
             m_tokens = tokens;
             m_tokenCount = tokens.Count;
             m_position = 0;
-            return ParseProgram();
+            m_currentLevel = 0;
+            m_inconclusive = false;
+
+            return ParseCompilationUnit();
         }
 
-        private Program ParseProgram()
+        public ParseStatus TryParse(List<Token> tokens, out CompilationUnit node)
+        {
+            node = null;
+            try
+            {
+                node = Parse(tokens);
+                return m_inconclusive ? ParseStatus.Inconclusive : ParseStatus.Completed;
+            }
+            catch (SourceIncompleteException)
+            {
+                return ParseStatus.Incomplete;
+            }
+            catch
+            {
+                return ParseStatus.Error;
+            }
+        }
+
+        private CompilationUnit ParseCompilationUnit()
         {
             List<Statement> statements = new List<Statement>();
             while (PeekToken().Type != TokenType.EOF)
@@ -67,11 +91,13 @@ namespace Gsksoft.GScript.Core
                 statements.Add(ParseStatement());
             }
 
-            return new Program(statements);
+            return new CompilationUnit(statements);
         }
 
         private Statement ParseStatement()
         {
+            ++m_currentLevel;
+
             Statement statement = null;
             Token token = PeekToken();
             switch (token.Type)
@@ -101,8 +127,17 @@ namespace Gsksoft.GScript.Core
                     statement = ParseReturnStatement();
                     break;
                 default:
-                    throw new GScriptException();
+                    if (token.Type == TokenType.EOF && m_currentLevel != 0)
+                    {
+                        throw new SourceIncompleteException();
+                    }
+                    else
+                    {
+                        throw new GScriptException();
+                    }
             }
+
+            --m_currentLevel;
 
             return statement;
         }
@@ -134,9 +169,17 @@ namespace Gsksoft.GScript.Core
             ConsumeToken(TokenType.RParen);
             Statement thenStatement = ParseStatement();
             Statement elseStatement = null;
+            m_inconclusive = false;
             if (TryConsumeToken(TokenType.Else))
             {
                 elseStatement = ParseStatement();
+            }
+            else
+            {
+                if (PeekToken().Type == TokenType.EOF)
+                {
+                    m_inconclusive = true;
+                }
             }
 
             return new IfStmt(condition, thenStatement, elseStatement);
@@ -414,14 +457,24 @@ namespace Gsksoft.GScript.Core
             return null;
         }
 
-        private Token PeekToken(int offset = 0)
+        private Token PeekToken()
         {
-            return m_position + offset < m_tokenCount ? m_tokens[m_position + offset] : null;
+            if (m_position >= m_tokenCount)
+            {
+                if (m_currentLevel != 0)
+                {
+                    throw new SourceIncompleteException();
+                }
+
+                return null;
+            }
+
+            return m_tokens[m_position];
         }
 
-        private void Forward(int offset = 1)
+        private void Forward()
         {
-            m_position += offset;
+            ++m_position;
         }
     }
 }

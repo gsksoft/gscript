@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="Program.cs">
+// <copyright file="CompilationUnit.cs">
 //     Copyright (c) gsksoft. All rights reserved.
 // </copyright>
 // <description></description>
@@ -11,11 +11,11 @@ namespace Gsksoft.GScript.Core.AST
     using System.Linq;
     using System.Text;
 
-    public class Program : Node
+    public class CompilationUnit : Node
     {
         public List<Statement> Statements { get; private set; }
 
-        public Program(List<Statement> statements)
+        public CompilationUnit(List<Statement> statements)
         {
             Statements = statements;
         }
