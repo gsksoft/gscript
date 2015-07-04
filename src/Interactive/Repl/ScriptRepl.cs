@@ -4,7 +4,7 @@
 // </copyright>
 // <description></description>
 //------------------------------------------------------------------------------
-namespace Gsksoft.GScript.Repl
+namespace Gsksoft.GScript.Interactive
 {
     using System;
     using System.Collections.Generic;
@@ -18,11 +18,10 @@ namespace Gsksoft.GScript.Repl
     {
         public static void Run()
         {
-            ReplConsole.WriteLine("Gscript 1.0");
-
             Lexer lexer = new Lexer();
             Parser parser = new Parser();
-            Scope scope = Scope.Global;
+            ExecutionContext context = ExecutionContext.CreateContext(
+                GScriptIO.Create(PrintOutput), Scope.CreateGlobalScope());
 
             while (true)
             {
@@ -30,7 +29,6 @@ namespace Gsksoft.GScript.Repl
                 inputBuilder.AppendLine(Read());
 
                 object result = null;
-                string output = null;
                 while (true)
                 {
                     var tokens = lexer.Scan(inputBuilder.ToString());
@@ -38,10 +36,7 @@ namespace Gsksoft.GScript.Repl
                     ParseStatus status = parser.TryParse(tokens, out compilationUnit);
                     if (status == ParseStatus.Completed)
                     {
-                        output = ReplConsole.GetConsoleOutput(() =>
-                        {
-                            result = compilationUnit.Eval(scope);
-                        });
+                        result = compilationUnit.Eval(context);
                         break;
                     }
                     else if (status == ParseStatus.Incomplete)
@@ -55,10 +50,7 @@ namespace Gsksoft.GScript.Repl
                         {
                             tokens = lexer.Scan(inputBuilder.ToString());
                             compilationUnit = parser.Parse(tokens);
-                            output = ReplConsole.GetConsoleOutput(() =>
-                            {
-                                result = compilationUnit.Eval(scope);
-                            });
+                            result = compilationUnit.Eval(context);
                             break;
                         }
 
@@ -66,14 +58,12 @@ namespace Gsksoft.GScript.Repl
                     }
                     else if (status == ParseStatus.Error)
                     {
-                        output = null;
                         result = null;
                         PrintError();
                         break;
                     }
                 }
 
-                PrintOutput(output);
                 PrintResult(result);
             }
         }
@@ -97,6 +87,11 @@ namespace Gsksoft.GScript.Repl
                 ReplConsole.Write("< ");
                 ReplConsole.WriteLine(result);
             }
+        }
+
+        private static void PrintOutput(object output)
+        {
+            PrintOutput(output.ToString());
         }
 
         private static void PrintOutput(string output)

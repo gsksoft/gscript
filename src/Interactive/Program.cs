@@ -1,25 +1,22 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="EmptyStmt.cs">
+// <copyright file="Program.cs">
 //     Copyright (c) gsksoft. All rights reserved.
 // </copyright>
 // <description></description>
 //------------------------------------------------------------------------------
-namespace Gsksoft.GScript.Core.AST
+namespace Gsksoft.GScript.Interactive
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class EmptyStmt : Statement
+    class Program
     {
-        public EmptyStmt()
+        static void Main(string[] args)
         {
-        }
-
-        public override object Eval(ExecutionContext context)
-        {
-            return null;
+            ReplConsole.WriteLine("GScript 1.0 Interactive Shell");
+            ScriptRepl.Run();
         }
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GScript.Repl")]
+[assembly: AssemblyTitle("GScript.Interactive")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Gsksoft")]
-[assembly: AssemblyProduct("GScript.Repl")]
+[assembly: AssemblyProduct("GScript.Interactive")]
 [assembly: AssemblyCopyright("Copyright © Gsksoft 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("031d7d36-e23e-4ca8-a843-fe4828e1893c")]
+[assembly: Guid("70e2c3c6-d0c8-4812-a962-ca4c1f09ab79")]
 
 // Version information for an assembly consists of the following four values:
 //

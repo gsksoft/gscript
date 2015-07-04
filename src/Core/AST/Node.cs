@@ -13,7 +13,7 @@ namespace Gsksoft.GScript.Core.AST
 
     public abstract class Node
     {
-        public virtual object Eval(Scope scope)
+        public virtual object Eval(ExecutionContext context)
         {
             throw new NotImplementedException();
         }

@@ -23,17 +23,17 @@ namespace Gsksoft.GScript.Core.AST
             Operator = op;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
             object result = null;
             if (Operator == UnaryOperator.Not)
             {
-                bool value = TypeHelper.GetValue<bool>(Expression.Eval(scope));
+                bool value = TypeHelper.GetValue<bool>(Expression.Eval(context));
                 result = !value;
             }
             else if (Operator == UnaryOperator.Negative)
             {
-                int value = TypeHelper.GetValue<int>(Expression.Eval(scope));
+                int value = TypeHelper.GetValue<int>(Expression.Eval(context));
                 result = -value;
             }
             else

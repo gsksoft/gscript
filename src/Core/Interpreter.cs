@@ -21,7 +21,9 @@ namespace Gsksoft.GScript.Core
             Parser parser = new Parser();
             var program = parser.Parse(tokens);
 
-            return program.Eval(Scope.Global);
+            ExecutionContext context = ExecutionContext.CreateContext(
+                GScriptIO.Create(), Scope.CreateGlobalScope());
+            return program.Eval(context);
         }
     }
 }

@@ -1,25 +1,18 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="EmptyStmt.cs">
+// <copyright file="ExecutionStatus.cs">
 //     Copyright (c) gsksoft. All rights reserved.
 // </copyright>
 // <description></description>
 //------------------------------------------------------------------------------
-namespace Gsksoft.GScript.Core.AST
+namespace Gsksoft.GScript.Core
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class EmptyStmt : Statement
+    public enum ExecutionStatus
     {
-        public EmptyStmt()
-        {
-        }
-
-        public override object Eval(ExecutionContext context)
-        {
-            return null;
-        }
+        // TODO
     }
 }

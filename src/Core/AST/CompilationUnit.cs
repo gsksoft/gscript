@@ -20,12 +20,19 @@ namespace Gsksoft.GScript.Core.AST
             Statements = statements;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
             object result = null;
-            foreach (var s in Statements)
+            try
             {
-                result = s.Eval(scope);
+                foreach (var s in Statements)
+                {
+                    result = s.Eval(context);
+                }
+            }
+            catch (ValueReturnedException ex)
+            {
+                return ex.ReturnValue;
             }
 
             return result;

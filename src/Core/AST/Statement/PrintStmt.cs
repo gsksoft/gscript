@@ -20,9 +20,9 @@ namespace Gsksoft.GScript.Core.AST
             Expression = expression;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
-            Console.WriteLine(Expression.Eval(scope));
+            context.IO.Output(Expression.Eval(context));
             return null;
         }
     }

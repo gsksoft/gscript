@@ -26,16 +26,16 @@ namespace Gsksoft.GScript.Core.AST
             ElseStatement = elseStatement;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
-            bool value = TypeHelper.GetValue<bool>(Condition.Eval(scope));
+            bool value = TypeHelper.GetValue<bool>(Condition.Eval(context));
             if (value)
             {
-                ThenStatement.Eval(scope);
+                ThenStatement.Eval(context);
             }
             else if (ElseStatement != null)
             {
-                ElseStatement.Eval(scope);
+                ElseStatement.Eval(context);
             }
 
             return null;

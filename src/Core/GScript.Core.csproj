@@ -59,8 +59,14 @@
     <Compile Include="AST\Statement\ReturnStmt.cs" />
     <Compile Include="AST\VarType.cs" />
     <Compile Include="AST\Statement\WhileStmt.cs" />
+    <Compile Include="Exception\ValueReturnedException.cs" />
     <Compile Include="Exception\GScriptException.cs" />
     <Compile Include="Exception\SourceIncompleteException.cs" />
+    <Compile Include="ExecutionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExecutionStatus.cs" />
+    <Compile Include="GScriptIO.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Parser.cs" />

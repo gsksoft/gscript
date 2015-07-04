@@ -4,7 +4,7 @@
 // </copyright>
 // <description></description>
 //------------------------------------------------------------------------------
-namespace Gsksoft.GScript.Repl
+namespace Gsksoft.GScript.Interactive
 {
     using System;
     using System.Collections.Generic;
@@ -14,26 +14,6 @@ namespace Gsksoft.GScript.Repl
 
     internal static class ReplConsole
     {
-        private static TextWriter s_stdOut;
-
-        static ReplConsole()
-        {
-            s_stdOut = Console.Out;
-        }
-
-        public static string GetConsoleOutput(Action action)
-        {
-            StringBuilder outputBuilder = new StringBuilder();
-            using (StringWriter writer = new StringWriter(outputBuilder))
-            {
-                Console.SetOut(writer);
-                action();
-                Console.SetOut(s_stdOut);
-            }
-
-            return outputBuilder.ToString();
-        }
-
         public static string ReadLine(ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
@@ -45,14 +25,14 @@ namespace Gsksoft.GScript.Repl
         public static void WriteLine(object value, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
-            s_stdOut.WriteLine(value);
+            Console.WriteLine(value);
             Console.ResetColor();
         }
 
         public static void Write(object value, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
-            s_stdOut.Write(value);
+            Console.Write(value);
             Console.ResetColor();
         }
     }

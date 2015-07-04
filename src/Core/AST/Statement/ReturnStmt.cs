@@ -20,10 +20,10 @@ namespace Gsksoft.GScript.Core.AST
             Expression = expression;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
-            // TODO: skip unexecuted statements
-            return Expression != null ? Expression.Eval(scope) : null;
+            object value = Expression != null ? Expression.Eval(context) : null;
+            throw new ValueReturnedException(value);
         }
     }
 }

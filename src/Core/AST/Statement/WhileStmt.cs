@@ -23,17 +23,17 @@ namespace Gsksoft.GScript.Core.AST
             Statement = statement;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
             while (true)
             {
-                bool value = TypeHelper.GetValue<bool>(Condition.Eval(scope));
+                bool value = TypeHelper.GetValue<bool>(Condition.Eval(context));
                 if (!value)
                 {
                     break;
                 }
 
-                Statement.Eval(scope);
+                Statement.Eval(context);
             }
 
             return null;

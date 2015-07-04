@@ -26,11 +26,26 @@ namespace Gsksoft.GScript.Core.AST
             Initializer = initializer;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
-            object value = Initializer == null ? null : Initializer.Eval(scope);
-            scope.DefineVariable(Name, value);
+            object value = Initializer == null ? null : Initializer.Eval(context);
+            if (value != null)
+            {
+                ThrowExceptionOnTypeError(value);
+            }
+
+            context.Scope.DefineVariable(Name, value);
             return null;
+        }
+
+        private void ThrowExceptionOnTypeError(object value)
+        {
+            if (Type == VarType.Integer && value.GetType() == typeof(int)) { }
+            else if (Type == VarType.Boolean && value.GetType() == typeof(bool)) { }
+            else
+            {
+                throw new GScriptException();
+            }
         }
     }
 }

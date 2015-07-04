@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{986B7B51-41E9-49E0-99F5-F1CF7D90A951}</ProjectGuid>
+    <ProjectGuid>{B2BCA09A-4151-4E52-8479-84CFBF6B9D57}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gsksoft.GScript.Test</RootNamespace>
-    <AssemblyName>GScript.Test</AssemblyName>
+    <RootNamespace>Gsksoft.GScript.Interpreter</RootNamespace>
+    <AssemblyName>GScript.Interpreter</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,12 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InterpreterTestCase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Core\GScript.Core.csproj">
+    <ProjectReference Include="..\Core\GScript.Core.csproj">
       <Project>{AEF5F302-9D5A-4AC1-A922-90BEA2C5870A}</Project>
       <Name>GScript.Core</Name>
     </ProjectReference>

@@ -35,7 +35,7 @@ namespace Gsksoft.GScript.Interpreter
 
         private static void OutputHelpMessage()
         {
-            Console.WriteLine("Usage: gsi --file \"<filename>\"");
+            Console.WriteLine("Usage: GScript.Interpreter --file \"<filename>\"");
         }
 
         /// <summary>

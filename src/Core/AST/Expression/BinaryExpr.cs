@@ -26,14 +26,14 @@ namespace Gsksoft.GScript.Core.AST
             Operator = op;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
             object result = null;
             bool isLogicalOperator = Operator == BinaryOperator.And || Operator == BinaryOperator.Or;
             if (isLogicalOperator)
             {
-                bool leftValue = TypeHelper.GetValue<bool>(Left.Eval(scope));
-                bool rightValue = TypeHelper.GetValue<bool>(Right.Eval(scope));
+                bool leftValue = TypeHelper.GetValue<bool>(Left.Eval(context));
+                bool rightValue = TypeHelper.GetValue<bool>(Right.Eval(context));
                 switch (Operator)
                 {
                     case BinaryOperator.And:
@@ -48,8 +48,8 @@ namespace Gsksoft.GScript.Core.AST
             }
             else
             {
-                int leftValue = TypeHelper.GetValue<int>(Left.Eval(scope));
-                int rightValue = TypeHelper.GetValue<int>(Right.Eval(scope));
+                int leftValue = TypeHelper.GetValue<int>(Left.Eval(context));
+                int rightValue = TypeHelper.GetValue<int>(Right.Eval(context));
                 switch (Operator)
                 {
                     case BinaryOperator.EQ:

@@ -20,13 +20,13 @@ namespace Gsksoft.GScript.Core.AST
             Statements = statements;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
             object result = null;
-            Scope blockScope = new Scope(scope);
+            ExecutionContext newContext = context.CreateContextWithChildScope();
             foreach (var s in Statements)
             {
-                result = s.Eval(blockScope);
+                result = s.Eval(newContext);
             }
             return result;
         }

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!-- syntaxdefinition for GScript, modified from CSharp-Mode.xshd -->
+
+<SyntaxDefinition name="GScript" extensions=".gs">
+	
+	<Environment>
+		<Custom name="TypeReference" bold="false" italic="false" color="#04ABAB" />
+		<Custom name="UnknownEntity" bold="false" italic="false" color="#AB0404" />
+	</Environment>
+	
+	<Properties>
+		<Property name="LineComment" value="//"/>
+	</Properties>
+	
+	<Digits name="Digits" bold="false" italic="false" color="DarkBlue"/>
+	
+	<RuleSets>
+		<RuleSet ignorecase="false">
+			<Delimiters>&amp;&lt;&gt;~!%^*()-+=|\#/{}[]:;"' ,	.?</Delimiters>
+			
+			<Span name="LineComment" rule="CommentMarkerSet" bold="false" italic="false" color="Green" stopateol="true">
+				<Begin>////</Begin>
+			</Span>
+			
+			<Span name="String" bold="false" italic="false" color="Blue" stopateol="true" escapecharacter="\">
+				<Begin>"</Begin>
+				<End>"</End>
+			</Span>
+			
+			<MarkPrevious bold="true" italic="false" color="MidnightBlue">(</MarkPrevious>
+			
+			<KeyWords name="Punctuation" bold="false" italic="false" color="DarkGreen">
+				<Key word="." />
+				<Key word=":" />
+				<Key word=";" />
+				<Key word="(" />
+				<Key word=")" />
+				<Key word="{" />
+				<Key word="}" />
+				<Key word="+" />
+				<Key word="-" />
+				<Key word="*" />
+				<Key word="/" />
+				<Key word="&lt;" />
+				<Key word="&gt;" />
+				<Key word="=" />
+			</KeyWords>
+			
+			<KeyWords name="OperatorKeywords" bold="true" italic="false" color="DarkCyan">
+				<Key word="and" />
+				<Key word="or" />
+				<Key word="not" />
+			</KeyWords>
+			
+			<KeyWords name="SelectionStatements" bold="true" italic="false" color="Blue">
+				<Key word="if" />
+				<Key word="else" />
+			</KeyWords>
+			
+			<KeyWords name="IterationStatements" bold="true" italic="false" color="Blue">
+				<Key word="while" />
+			</KeyWords>
+			
+			<KeyWords name="JumpStatements" bold="false" italic="false" color="Navy">
+				<Key word="return" />
+				<Key word="ret" />
+			</KeyWords>
+			
+			<KeyWords name="GScriptStatements" bold="false" italic="false" color="Blue">
+				<Key word="define" />
+				<Key word="def" />
+				<Key word="let" />
+				<Key word="print" />
+			</KeyWords>
+			
+			<KeyWords name="Types" bold="true" italic="false" color="Red">
+				<Key word="boolean" />
+				<Key word="bool" />
+				<Key word="integer" />
+				<Key word="int" />
+			</KeyWords>
+			
+			<KeyWords name="Literals" bold="true" italic="false" color="Black">
+				<Key word="true" />
+				<Key word="false" />
+			</KeyWords>
+		</RuleSet>
+
+    <RuleSet name="CommentMarkerSet" ignorecase="false">
+      <Delimiters>&lt;&gt;~!@%^*()-+=|\#/{}[]:;"' ,	.?</Delimiters>
+      <KeyWords name="ErrorWords" bold="true" italic="false" color="Red">
+        <Key word="TODO" />
+        <Key word="FIXME" />
+      </KeyWords>
+      <KeyWords name="WarningWords" bold="true" italic="false" color="#EEE0E000">
+        <Key word="HACK" />
+        <Key word="UNDONE" />
+      </KeyWords>
+    </RuleSet>
+    
+  </RuleSets>
+</SyntaxDefinition>
+

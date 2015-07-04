@@ -20,9 +20,9 @@ namespace Gsksoft.GScript.Core.AST
             Name = name;
         }
 
-        public override object Eval(Scope scope)
+        public override object Eval(ExecutionContext context)
         {
-            return scope.GetValue(Name);
+            return context.Scope.GetValue(Name);
         }
     }
 }
