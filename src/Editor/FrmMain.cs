@@ -14,6 +14,7 @@ namespace Gsksoft.GScript.Editor
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
+    using System.Diagnostics;
     
     using ICSharpCode.TextEditor.Document;
     
@@ -45,18 +46,29 @@ namespace Gsksoft.GScript.Editor
 
         private void Run()
         {
-            Lexer lexer = new Lexer();
-            string source = textEditorControl.Text;
-            var tokens = lexer.Scan(source);
+            try
+            {
+                Lexer lexer = new Lexer();
+                string source = textEditorControl.Text;
+                var tokens = lexer.Scan(source);
 
-            Parser parser = new Parser();
-            var program = parser.Parse(tokens);
+                Parser parser = new Parser();
+                var program = parser.Parse(tokens);
 
-            ExecutionContext context = ExecutionContext.CreateContext(
-                GScriptIO.Create(Output), Scope.CreateGlobalScope());
+                ExecutionContext context = ExecutionContext.CreateContext(
+                    GScriptIO.Create(Output), Scope.CreateGlobalScope());
 
-            string result = (program.Eval(context) ?? "None").ToString();
-            Output(string.Format("> {0}", result));
+                Stopwatch watch = Stopwatch.StartNew();
+                string result = (program.Eval(context) ?? "None").ToString();
+                long elapsed = watch.ElapsedMilliseconds;
+                Output(string.Format("> {0} ({1} ms elapsed)", result, elapsed));
+            }
+            catch (Exception ex)
+            {
+                string errMsg = string.Format("{0}: {1}", ex.GetType().Name, ex.Message);
+                Output(string.Format("> {0}", errMsg));
+                MessageBox.Show(errMsg, "Error");
+            }
         }
 
         private void Output(object o)

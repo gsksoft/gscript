@@ -121,38 +121,20 @@
     <value>17, 17</value>
   </metadata>
   <data name="textEditorControl.Text" xml:space="preserve">
-    <value>{
-	print 1 + 2;
-}
-
+    <value>define (function(int) -&gt; int) fib: function(int n) -&gt; int
 {
-	define integer a: 0;
-	let a = 1;
-	print a + 2;
-}
+	if (n == 0 or n == 1)
+	{
+		return n;
+	}
+	else if (n == 2)
+	{
+		return 1;
+	}
+	
+	return fib(n - 1) + fib(n - 2);
+};
 
-{
-	define integer a: 3;
-	define integer b: 4;
-	if (a &gt; b)
-	{
-		print a;
-	}
-	else
-	{
-		print b;
-	}
-}
-
-{
-	def int sum: 0;
-	def int i: 1;
-	while (i &lt;= 5)
-	{
-		let sum = sum + i;
-		let i = i + 1;
-	}
-	print sum;
-}</value>
+return fib(10);</value>
   </data>
 </root>

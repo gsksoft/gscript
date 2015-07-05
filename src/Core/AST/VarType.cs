@@ -13,7 +13,7 @@ namespace Gsksoft.GScript.Core.AST
 
     public enum VarType
     {
-        None,
+        Void,
         Integer,
         Boolean
     }

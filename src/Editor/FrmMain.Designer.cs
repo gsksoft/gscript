@@ -81,52 +81,52 @@
             // mnuNew
             // 
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(152, 22);
+            this.mnuNew.Size = new System.Drawing.Size(117, 22);
             this.mnuNew.Text = "New";
             // 
             // mnuOpen
             // 
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(152, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(117, 22);
             this.mnuOpen.Text = "Open";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(114, 6);
             // 
             // mnuClose
             // 
             this.mnuClose.Name = "mnuClose";
-            this.mnuClose.Size = new System.Drawing.Size(152, 22);
+            this.mnuClose.Size = new System.Drawing.Size(117, 22);
             this.mnuClose.Text = "Close";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(114, 6);
             // 
             // mnuSave
             // 
             this.mnuSave.Name = "mnuSave";
-            this.mnuSave.Size = new System.Drawing.Size(152, 22);
+            this.mnuSave.Size = new System.Drawing.Size(117, 22);
             this.mnuSave.Text = "Save";
             // 
             // mnuSaveAs
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(152, 22);
+            this.mnuSaveAs.Size = new System.Drawing.Size(117, 22);
             this.mnuSaveAs.Text = "SaveAs";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(114, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(152, 22);
+            this.mnuExit.Size = new System.Drawing.Size(117, 22);
             this.mnuExit.Text = "Exit";
             // 
             // mnuRun

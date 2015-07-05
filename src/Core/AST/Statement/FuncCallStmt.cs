@@ -1,26 +1,29 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="SourceIncompleteException.cs">
+// <copyright file="FuncCallStmt.cs">
 //     Copyright (c) gsksoft. All rights reserved.
 // </copyright>
 // <description></description>
 //------------------------------------------------------------------------------
-namespace Gsksoft.GScript.Core
+namespace Gsksoft.GScript.Core.AST
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class SourceIncompleteException : GScriptException
+    public class FuncCallStmt : Statement
     {
-        public SourceIncompleteException()
-            : base("More token(s) required.")
+        public FuncCallExpr Expression { get; private set; }
+
+        public FuncCallStmt(FuncCallExpr expression)
         {
+            Expression = expression;
         }
 
-        public SourceIncompleteException(string message)
-            : base(message)
+        public override object Eval(ExecutionContext context)
         {
+            Expression.Eval(context);
+            return null;
         }
     }
 }

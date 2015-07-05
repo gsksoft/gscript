@@ -10,13 +10,16 @@ namespace Gsksoft.GScript.Core
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    
+
     using Gsksoft.GScript.Core.AST;
+
+    using Parameter = AST.Function.Parameter;
 
     public class Parser
     {
         private static readonly Dictionary<TokenType, UnaryOperator> s_unaryOperatorMapping;
         private static readonly Dictionary<TokenType, BinaryOperator> s_binaryOperatorMapping;
+        private static readonly Dictionary<TokenType, VarType> s_varTypeMapping;
 
         private List<Token> m_tokens;
         private int m_tokenCount;
@@ -42,16 +45,40 @@ namespace Gsksoft.GScript.Core
             s_binaryOperatorMapping[TokenType.Minus] = BinaryOperator.Minus;
             s_binaryOperatorMapping[TokenType.Mul] = BinaryOperator.Mul;
             s_binaryOperatorMapping[TokenType.Div] = BinaryOperator.Div;
+
+            s_varTypeMapping = new Dictionary<TokenType, VarType>();
+            s_varTypeMapping[TokenType.Int] = VarType.Integer;
+            s_varTypeMapping[TokenType.Bool] = VarType.Boolean;
         }
 
         private static UnaryOperator LookupUnaryOperator(TokenType type)
         {
-            return s_unaryOperatorMapping[type];
+            if (s_unaryOperatorMapping.ContainsKey(type))
+            {
+                return s_unaryOperatorMapping[type];
+            }
+
+            throw new GScriptException();
         }
 
         private static BinaryOperator LookupBinaryOperator(TokenType type)
         {
-            return s_binaryOperatorMapping[type];
+            if (s_binaryOperatorMapping.ContainsKey(type))
+            {
+                return s_binaryOperatorMapping[type];
+            }
+
+            throw new GScriptException();
+        }
+
+        private static VarType LookupVarType(TokenType type)
+        {
+            if (s_varTypeMapping.ContainsKey(type))
+            {
+                return s_varTypeMapping[type];
+            }
+
+            throw new GScriptException();
         }
 
         public CompilationUnit Parse(List<Token> tokens)
@@ -126,6 +153,9 @@ namespace Gsksoft.GScript.Core
                 case TokenType.Return:
                     statement = ParseReturnStatement();
                     break;
+                case TokenType.Id:
+                    statement = ParseFuncCallStatement();
+                    break;
                 default:
                     if (token.Type == TokenType.EOF && m_currentLevel != 0)
                     {
@@ -197,38 +227,28 @@ namespace Gsksoft.GScript.Core
 
         private Statement ParseDefineStatement()
         {
-            return ParseDefineVariableStatement();
+            ConsumeToken(TokenType.Define);
+            Token token = PeekToken();
+            if (token.Type == TokenType.LParen)
+            {
+                return ParseDefineFunctionStatement();
+            }
+            else
+            {
+                return ParseDefineVariableStatement();
+            }
         }
 
         private DefVarStmt ParseDefineVariableStatement()
         {
-            ConsumeToken(TokenType.Define);
+            // ConsumeToken(TokenType.Define);
 
             Token token = PeekToken();
-            VarType varType = VarType.None;
-            if (token.Type == TokenType.Int)
-            {
-                varType = VarType.Integer;
-            }
-            else if (token.Type == TokenType.Bool)
-            {
-                varType = VarType.Boolean;
-            }
-            else
-            {
-                throw new GScriptException();
-            }
+            VarType varType = LookupVarType(token.Type);
 
             Forward(); // type
 
-            token = PeekToken();
-            if (token.Type != TokenType.Id)
-            {
-                throw new GScriptException();
-            }
-
-            string varName = token.Value;
-            Forward(); // id
+            string varName = ParseId();
 
             Expression initializer = null;
             if (TryConsumeToken(TokenType.Colon))
@@ -241,18 +261,129 @@ namespace Gsksoft.GScript.Core
             return new DefVarStmt(varType, varName, initializer);
         }
 
-        private AssignStmt ParseAssignStatement()
+        private DefFuncStmt ParseDefineFunctionStatement()
         {
-            ConsumeToken(TokenType.Let);
+            // ConsumeToken(TokenType.Define);
+            FunctionType funcType = ParseFunctionType();
+            string funcName = ParseId();
+            ConsumeToken(TokenType.Colon);
+            Function func = ParseFunction();
+            ConsumeToken(TokenType.Semi);
+            return new DefFuncStmt(funcType, funcName, func);
+        }
 
+        private FunctionType ParseFunctionType()
+        {
+            FunctionType funcType = new FunctionType();
+
+            ConsumeToken(TokenType.LParen);
+            ConsumeToken(TokenType.Function);
+            ConsumeToken(TokenType.LParen);
+
+            var paramTypes = new List<VarType>();
+            Token token = MatchTokenIn(
+                TokenType.Int, TokenType.Bool);
+            if (token != null)
+            {
+                var paramType = LookupVarType(token.Type);
+                paramTypes.Add(paramType);
+                while (TryConsumeToken(TokenType.Comma))
+                {
+                    token = PeekToken();
+                    paramType = LookupVarType(token.Type);
+                    paramTypes.Add(paramType);
+                    Forward();
+                }
+            }
+
+            funcType.ParameterTypes = paramTypes;
+
+            ConsumeToken(TokenType.RParen);
+
+            VarType returnType = VarType.Void;
+            if (TryConsumeToken(TokenType.RightArrow))
+            {
+                token = PeekToken();
+                returnType = LookupVarType(token.Type);
+                Forward();
+            }
+
+            funcType.ReturnType = returnType;
+
+            ConsumeToken(TokenType.RParen);
+
+            return funcType;
+        }
+
+        private Function ParseFunction()
+        {
+            Function func = new Function();
+
+            ConsumeToken(TokenType.Function);
+            ConsumeToken(TokenType.LParen);
+
+            var @params = new List<Parameter>();
+            Token token = MatchTokenIn(
+                TokenType.Int, TokenType.Bool);
+            if (token != null)
+            {
+                VarType paramType = LookupVarType(token.Type);
+                string varName = ParseId();
+                @params.Add(new Parameter() { Type = paramType, Name = varName });
+
+                while (TryConsumeToken(TokenType.Comma))
+                {
+                    token = PeekToken();
+                    paramType = LookupVarType(token.Type);
+                    Forward();
+
+                    varName = ParseId();
+                    @params.Add(new Parameter() { Type = paramType, Name = varName });
+                }
+            }
+
+            func.Parameters = @params;
+
+            ConsumeToken(TokenType.RParen);
+
+            VarType returnType = VarType.Void;
+            if (TryConsumeToken(TokenType.RightArrow))
+            {
+                token = PeekToken();
+                returnType = LookupVarType(token.Type);
+                Forward();
+            }
+
+            func.ReturnType = returnType;
+
+            // support interactive parsing
+            {
+                ++m_currentLevel;
+                BlockStmt body = ParseBlockStatement();
+                func.Body = body;
+                --m_currentLevel;
+            }
+
+            return func;
+        }
+
+        private string ParseId()
+        {
             Token token = PeekToken();
             if (token.Type != TokenType.Id)
             {
                 throw new GScriptException();
             }
 
-            string name = token.Value;
             Forward();
+            return token.Value;
+        }
+
+        private AssignStmt ParseAssignStatement()
+        {
+            ConsumeToken(TokenType.Let);
+
+            string name = ParseId();
 
             ConsumeToken(TokenType.Assign);
             Expression expr = ParseExpression();
@@ -275,6 +406,27 @@ namespace Gsksoft.GScript.Core
             Expression expr = ParseExpression();
             ConsumeToken(TokenType.Semi);
             return new ReturnStmt(expr);
+        }
+
+        private FuncCallStmt ParseFuncCallStatement()
+        {
+            NameExpr idExpr = new NameExpr(ParseId());
+
+            ConsumeToken(TokenType.LParen);
+            List<Expression> args = ParseArgumentList();
+            FuncCallExpr expr = new FuncCallExpr(idExpr, args);
+            ConsumeToken(TokenType.RParen);
+
+            while (TryConsumeToken(TokenType.LParen))
+            {
+                args = ParseArgumentList();
+                expr = new FuncCallExpr(expr, args);
+                ConsumeToken(TokenType.RParen);
+            }
+
+            ConsumeToken(TokenType.Semi);
+
+            return new FuncCallStmt(expr);
         }
 
         private Expression ParseExpression()
@@ -383,7 +535,42 @@ namespace Gsksoft.GScript.Core
                 return new UnaryExpr(expr, optr);
             }
 
-            return ParsePrimaryExpression();
+            return ParsePostfixExpression();
+        }
+
+        private Expression ParsePostfixExpression()
+        {
+            Expression expr = ParsePrimaryExpression();
+            while (TryConsumeToken(TokenType.LParen))
+            {
+                List<Expression> args = ParseArgumentList();
+                expr = new FuncCallExpr(expr, args);
+                ConsumeToken(TokenType.RParen);
+            }
+
+            return expr;
+        }
+
+        private List<Expression> ParseArgumentList()
+        {
+            List<Expression> argList = new List<Expression>();
+
+            Token token = PeekToken();
+            if (token.Type == TokenType.RParen)
+            {
+                return argList;
+            }
+
+            Expression expr = ParseExpression();
+            argList.Add(expr);
+
+            while (TryConsumeToken(TokenType.Comma))
+            {
+                expr = ParseExpression();
+                argList.Add(expr);
+            }
+
+            return argList;
         }
 
         private Expression ParsePrimaryExpression()
@@ -429,7 +616,13 @@ namespace Gsksoft.GScript.Core
             }
             else
             {
-                throw new GScriptException();
+                string msg = string.Format("{0} token expected", type);
+                if (m_currentLevel > 0)
+                {
+                    throw new SourceIncompleteException(msg);
+                }
+
+                throw new GScriptException(msg);
             }
         }
 

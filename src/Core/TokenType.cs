@@ -34,32 +34,35 @@ namespace Gsksoft.GScript.Core
         // types
         Int,
         Bool,
+        Function,
 
         // punctuations
-        LCurly, // {
-        RCurly, // }
-        LParen, // (
-        RParen, // )
-        Colon,  // :
-        Semi,   // ;
+        LCurly,     // {
+        RCurly,     // }
+        LParen,     // (
+        RParen,     // )
+        Colon,      // :
+        Semi,       // ;
+        Comma,      // ,
+        RightArrow, // ->
 
         // operators
-        Assign, // =
+        Assign,     // =
 
-        And,    // and
-        Or,     // or
-        Not,    // not
+        And,        // and
+        Or,         // or
+        Not,        // not
 
-        EQ,     // ==
-        NE,     // <>
-        LT,     // <
-        GT,     // >
-        LE,     // <=
-        GE,     // >=
+        EQ,         // ==
+        NE,         // <>
+        LT,         // <
+        GT,         // >
+        LE,         // <=
+        GE,         // >=
 
-        Plus,   // +
-        Minus,  // -
-        Mul,    // *
-        Div,    // /
+        Plus,       // +
+        Minus,      // -
+        Mul,        // *
+        Div,        // /
     }
 }

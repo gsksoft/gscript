@@ -31,14 +31,14 @@ namespace Gsksoft.GScript.Core.AST
             object value = Initializer == null ? null : Initializer.Eval(context);
             if (value != null)
             {
-                ThrowExceptionOnTypeError(value);
+                ThrowExceptionOnTypeNotMatch(value);
             }
 
             context.Scope.DefineVariable(Name, value);
             return null;
         }
 
-        private void ThrowExceptionOnTypeError(object value)
+        private void ThrowExceptionOnTypeNotMatch(object value)
         {
             if (Type == VarType.Integer && value.GetType() == typeof(int)) { }
             else if (Type == VarType.Boolean && value.GetType() == typeof(bool)) { }

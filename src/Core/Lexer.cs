@@ -40,6 +40,8 @@ namespace Gsksoft.GScript.Core
             s_keywordMapping["and"] = TokenType.And;
             s_keywordMapping["or"] = TokenType.Or;
             s_keywordMapping["not"] = TokenType.Not;
+            s_keywordMapping["function"] = TokenType.Function;
+            s_keywordMapping["func"] = TokenType.Function;
         }
 
         public List<Token> Scan(string source)
@@ -163,6 +165,10 @@ namespace Gsksoft.GScript.Core
                     Forward();
                     token.Type = TokenType.Semi;
                     break;
+                case ',':
+                    Forward();
+                    token.Type = TokenType.Comma;
+                    break;
                 case '=':
                     Forward();
                     c = PeekChar();
@@ -213,7 +219,16 @@ namespace Gsksoft.GScript.Core
                     break;
                 case '-':
                     Forward();
-                    token.Type = TokenType.Minus;
+                    c = PeekChar();
+                    if (c == '>')
+                    {
+                        Forward();
+                        token.Type = TokenType.RightArrow;
+                    }
+                    else
+                    {
+                        token.Type = TokenType.Minus;
+                    }
                     break;
                 case '*':
                     Forward();
