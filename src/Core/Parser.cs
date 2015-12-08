@@ -266,9 +266,13 @@ namespace Gsksoft.GScript.Core
             // ConsumeToken(TokenType.Define);
             FunctionType funcType = ParseFunctionType();
             string funcName = ParseId();
-            ConsumeToken(TokenType.Colon);
-            Function func = ParseFunction();
-            ConsumeToken(TokenType.Semi);
+            Function func = null;
+            if (TryConsumeToken(TokenType.Colon))
+            {
+                func = ParseFunction();
+                ConsumeToken(TokenType.Semi);
+            }
+
             return new DefFuncStmt(funcType, funcName, func);
         }
 
@@ -599,7 +603,19 @@ namespace Gsksoft.GScript.Core
             if (token.Type == TokenType.LParen)
             {
                 Forward();
-                Expression expr = ParseExpression();
+                token = PeekToken();
+
+                Expression expr = null;
+                if (token.Type == TokenType.Function)
+                {
+                    Function value = ParseFunction();
+                    expr = new FuncInteral(value);
+                }
+                else
+                {
+                    expr = ParseExpression();
+                }
+                
                 ConsumeToken(TokenType.RParen);
                 return expr;
             }

@@ -37,6 +37,11 @@ namespace Gsksoft.GScript.Core.AST
 
         private void ThrowExceptionOnTypeNotMatch()
         {
+            if (Function == null)
+            {
+                return;
+            }
+
             if (Function.ReturnType != Type.ReturnType)
             {
                 throw new GScriptException();

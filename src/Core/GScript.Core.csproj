@@ -45,6 +45,7 @@
     <Compile Include="AST\Expression\FuncCallExpr.cs" />
     <Compile Include="AST\Expression\LiteralExpr.cs" />
     <Compile Include="AST\Expression\Literal\BoolInteral.cs" />
+    <Compile Include="AST\Expression\Literal\FuncInteral.cs" />
     <Compile Include="AST\Expression\Literal\IntLiteral.cs" />
     <Compile Include="AST\Expression\NameExpr.cs" />
     <Compile Include="AST\Expression\UnaryExpr.cs" />
